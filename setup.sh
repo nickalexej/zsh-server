@@ -225,8 +225,22 @@ install_glow() {
     local tmp
     tmp="$(mktemp -d)"
 
-    curl -fsSL "$url" | tar -xz -C "$tmp"
-    run_sudo mv "$tmp/glow" /usr/local/bin/glow
+    if ! curl -fsSL "$url" | tar -xz -C "$tmp"; then
+        warn "Failed to download or extract glow — skipping"
+        rm -rf "$tmp"
+        return
+    fi
+
+    local glow_bin
+    glow_bin="$(find "$tmp" -type f -name "glow" | head -1)"
+
+    if [ -z "$glow_bin" ]; then
+        warn "glow binary not found after extraction — skipping"
+        rm -rf "$tmp"
+        return
+    fi
+
+    run_sudo mv "$glow_bin" /usr/local/bin/glow
     run_sudo chmod +x /usr/local/bin/glow
     rm -rf "$tmp"
 
