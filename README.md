@@ -1,14 +1,26 @@
-# server-bash
+# zsh-server
 
 Einheitliche ZSH-Konfiguration für alle Server. Ein einziger Befehl richtet ZSH, Oh-My-Zsh, Powerlevel10k, Plugins und tmux vollständig ein.
 
 ## Installation
 
 ```bash
-git clone https://github.com/nickalexej/server-bash.git && cd server-bash && ./setup.sh
+git clone https://github.com/nickalexej/zsh-server.git && cd zsh-server && ./setup.sh
 ```
 
-> Nach der Installation eine neue ZSH-Session starten: `exec zsh`
+> Nach der Installation kann der Ordner gelöscht werden — alles wurde ins Home-Verzeichnis kopiert.
+
+> Neue ZSH-Session starten: `exec zsh`
+
+## Update
+
+Configs auf allen Servern aktualisieren ohne Neuinstallation:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/nickalexej/zsh-server/main/update.sh | bash
+```
+
+Aktualisiert: `.zshrc`, `.p10k.zsh`, `aliases.zsh`, `.tmux.conf` — jeweils mit automatischem `.bak` Backup. Eine aktive tmux-Session wird direkt neu geladen.
 
 ## Was wird installiert?
 
@@ -75,8 +87,9 @@ Vorhandene Dateien werden automatisch gesichert (`.bak`), bevor sie überschrieb
 ## Aufbau
 
 ```
-server-bash/
-├── setup.sh          # Installer
+zsh-server/
+├── setup.sh          # Erstinstallation
+├── update.sh         # Configs aktualisieren
 └── config/
     ├── zshrc         # ZSH Konfiguration
     ├── p10k.zsh      # Powerlevel10k Config
