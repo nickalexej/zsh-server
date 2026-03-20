@@ -271,6 +271,15 @@ main() {
     echo "╚════════════════════════════════════════╝"
     echo -e "${NC}"
 
+    if [ "$(id -u)" -eq 0 ]; then
+        echo -e "${YELLOW}${BOLD}WARNING:${NC} You are running as root."
+        echo "This will install everything into /root/ instead of your user home."
+        echo "Run without sudo: ${BOLD}./setup.sh${NC}"
+        echo ""
+        read -r -p "Continue anyway as root? [y/N] " confirm
+        [[ "$confirm" =~ ^[yY]$ ]] || exit 1
+    fi
+
     detect_pkg_manager
     install_packages
     set_default_shell
