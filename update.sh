@@ -74,7 +74,11 @@ step "Reloading configs"
 
 # Reload tmux if a session is running
 if command -v tmux &>/dev/null && tmux info &>/dev/null 2>&1; then
-    tmux source-file "$HOME/.tmux.conf" && ok "tmux config reloaded"
+    # Unbind all common old prefixes before sourcing to avoid stale bindings
+    tmux unbind C-b 2>/dev/null || true
+    tmux unbind C-l 2>/dev/null || true
+    tmux unbind C-a 2>/dev/null || true
+    tmux source-file "$HOME/.tmux.conf" && ok "tmux config reloaded (prefix: Ctrl+a)"
 else
     warn "No active tmux session — restart tmux to apply changes"
 fi
