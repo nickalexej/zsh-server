@@ -66,15 +66,30 @@ Kein Nerd Font erforderlich. Der Prompt zeigt:
 
 Nach der Installation kann der Prompt mit `p10k configure` weiter angepasst werden.
 
-## tmux Plugins installieren
+## tmux
+
+### Plugins installieren
 
 Nach dem ersten Start von tmux:
 
 ```
-Ctrl+l dann I
+Ctrl+a dann I
 ```
 
 Installiert: `tmux-sensible` und `dracula/tmux` (Statusbar-Theme).
+
+### Keybindings
+
+Prefix: `Ctrl+a`
+
+| Taste | Aktion |
+|---|---|
+| `prefix + -` | Horizontaler Split (behält aktuellen Pfad) |
+| `prefix + #` | Vertikaler Split (behält aktuellen Pfad) |
+| `prefix + h/j/k/l` | Pane Navigation (Vim-Style) |
+| `prefix + Tab` | Nächstes Pane |
+| `Shift + ←/→` | Window wechseln |
+| `prefix + r` | Config neu laden |
 
 ## Bestehende Configs
 
