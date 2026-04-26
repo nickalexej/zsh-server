@@ -293,7 +293,7 @@ main() {
     echo "Next steps:"
     echo "  1. Start ZSH:               exec zsh"
     echo "  2. Configure prompt:        p10k configure"
-    echo "  3. Install tmux plugins:    tmux, then Ctrl+l + I"
+    echo "  3. Install tmux plugins:    tmux, then Ctrl+a + I"
 }
 
 main "$@"
