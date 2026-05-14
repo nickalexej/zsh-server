@@ -53,10 +53,11 @@ backup "$HOME/.zshrc"
 fetch "$REPO_RAW/config/zshrc" "$HOME/.zshrc"
 ok ".zshrc updated"
 
-# p10k
-backup "$HOME/.p10k.zsh"
-fetch "$REPO_RAW/config/p10k.zsh" "$HOME/.p10k.zsh"
-ok ".p10k.zsh updated"
+# oh-my-posh theme
+mkdir -p "$HOME/.config/ohmyposh"
+backup "$HOME/.config/ohmyposh/server.toml"
+fetch "$REPO_RAW/config/omp.toml" "$HOME/.config/ohmyposh/server.toml"
+ok "omp theme updated → ~/.config/ohmyposh/server.toml"
 
 # Aliases
 mkdir -p "$ZSH_CUSTOM"

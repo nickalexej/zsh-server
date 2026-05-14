@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Server Shell Setup
-# ZSH + Oh-My-Zsh + Powerlevel10k + Plugins + tmux
+# ZSH + Oh-My-Zsh + Oh My Posh + Plugins + tmux
 # ─────────────────────────────────────────────────────────────────────────────
 
 RED='\033[0;31m'
@@ -139,10 +139,19 @@ install_plugins() {
     clone_if_missing "zsh-syntax-highlighting" \
         "https://github.com/zsh-users/zsh-syntax-highlighting" \
         "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+}
 
-    clone_if_missing "Powerlevel10k" \
-        "https://github.com/romkatv/powerlevel10k.git" \
-        "$ZSH_CUSTOM/themes/powerlevel10k"
+# ─── Oh My Posh ──────────────────────────────────────────────────────────────
+
+install_omp() {
+    if command -v oh-my-posh &>/dev/null; then
+        ok "oh-my-posh already installed"
+        return
+    fi
+
+    step "Installing oh-my-posh"
+    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$HOME/.local/bin"
+    ok "oh-my-posh installed"
 }
 
 # ─── Copy Config Files ───────────────────────────────────────────────────────
@@ -173,10 +182,11 @@ copy_configs() {
     cp "$CONFIG_DIR/tmux.conf" "$HOME/.tmux.conf"
     ok ".tmux.conf installed"
 
-    # p10k
-    backup "$HOME/.p10k.zsh"
-    cp "$CONFIG_DIR/p10k.zsh" "$HOME/.p10k.zsh"
-    ok ".p10k.zsh installed"
+    # oh-my-posh theme
+    mkdir -p "$HOME/.config/ohmyposh"
+    backup "$HOME/.config/ohmyposh/server.toml"
+    cp "$CONFIG_DIR/omp.toml" "$HOME/.config/ohmyposh/server.toml"
+    ok "omp theme installed → ~/.config/ohmyposh/server.toml"
 }
 
 # ─── Glow (Markdown Renderer) ────────────────────────────────────────────────
@@ -267,7 +277,7 @@ main() {
     echo -e "${BLUE}${BOLD}"
     echo "╔════════════════════════════════════════╗"
     echo "║         Server Shell Setup             ║"
-    echo "║   ZSH · Oh-My-Zsh · Powerlevel10k     ║"
+    echo "║    ZSH · Oh-My-Zsh · Oh My Posh       ║"
     echo "╚════════════════════════════════════════╝"
     echo -e "${NC}"
 
@@ -285,6 +295,7 @@ main() {
     set_default_shell
     install_omz
     install_plugins
+    install_omp
     copy_configs
     install_glow
     install_tpm
@@ -292,8 +303,7 @@ main() {
     echo -e "\n${GREEN}${BOLD}Setup complete!${NC}\n"
     echo "Next steps:"
     echo "  1. Start ZSH:               exec zsh"
-    echo "  2. Configure prompt:        p10k configure"
-    echo "  3. Install tmux plugins:    tmux, then Ctrl+a + I"
+    echo "  2. Install tmux plugins:    tmux, then Ctrl+a + I"
 }
 
 main "$@"

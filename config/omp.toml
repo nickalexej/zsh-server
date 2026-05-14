@@ -1,0 +1,69 @@
+"$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json"
+version = 4
+final_space = true
+
+[palette]
+foreground = "#f8f8f2"
+session    = "#6272a4"
+path       = "#bd93f9"
+git        = "#ffb86c"
+time       = "#ff79c6"
+
+[[blocks]]
+type      = "prompt"
+alignment = "left"
+
+  [[blocks.segments]]
+  type       = "session"
+  style      = "plain"
+  foreground = "p:session"
+  background = "transparent"
+  template   = "{{ .UserName }}@{{ .HostName }}"
+
+  [[blocks.segments]]
+  type       = "text"
+  style      = "plain"
+  foreground = "p:foreground"
+  background = "transparent"
+  template   = " > "
+
+  [[blocks.segments]]
+  type       = "path"
+  style      = "plain"
+  foreground = "p:path"
+  background = "transparent"
+  template   = "{{ .Path }}"
+
+  [blocks.segments.properties]
+  style = "folder"
+
+  [[blocks.segments]]
+  type       = "git"
+  style      = "plain"
+  foreground = "p:git"
+  background = "transparent"
+  template   = " ({{ .HEAD }}{{ if gt .StashCount 0 }} *{{ .StashCount }}{{ end }})"
+
+  [blocks.segments.properties]
+  fetch_status        = false
+  fetch_upstream_icon = false
+  branch_icon         = ""
+
+[[blocks]]
+type      = "prompt"
+alignment = "right"
+
+  [[blocks.segments]]
+  type       = "time"
+  style      = "plain"
+  foreground = "p:time"
+  background = "transparent"
+  template   = "{{ .CurrentDate | date .Format }}"
+
+  [blocks.segments.properties]
+  time_format = "15:04"
+
+[transient_prompt]
+background = "transparent"
+foreground = "p:path"
+template   = "> "
