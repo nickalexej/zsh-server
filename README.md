@@ -1,6 +1,6 @@
 # zsh-server
 
-Einheitliche ZSH-Konfiguration für alle Server. Ein einziger Befehl richtet ZSH, Oh-My-Zsh, Powerlevel10k, Plugins und tmux vollständig ein.
+Einheitliche ZSH-Konfiguration für alle Server. Ein einziger Befehl richtet ZSH, Oh-My-Zsh, Oh My Posh, Plugins und tmux vollständig ein.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Configs auf allen Servern aktualisieren ohne Neuinstallation:
 curl -fsSL https://raw.githubusercontent.com/nickalexej/zsh-server/main/update.sh | bash
 ```
 
-Aktualisiert: `.zshrc`, `.p10k.zsh`, `aliases.zsh`, `.tmux.conf` — jeweils mit automatischem `.bak` Backup. Eine aktive tmux-Session wird direkt neu geladen.
+Aktualisiert: `.zshrc`, `omp.toml`, `aliases.zsh`, `.tmux.conf` — jeweils mit automatischem `.bak` Backup. Eine aktive tmux-Session wird direkt neu geladen.
 
 ## Was wird installiert?
 
@@ -28,7 +28,7 @@ Aktualisiert: `.zshrc`, `.p10k.zsh`, `aliases.zsh`, `.tmux.conf` — jeweils mit
 |---|---|
 | **ZSH** | Shell (via Paketmanager, falls nicht vorhanden) |
 | **Oh-My-Zsh** | ZSH Framework |
-| **Powerlevel10k** | Prompt Theme (ASCII-Modus, kein Nerd Font nötig) |
+| **Oh My Posh** | Prompt Theme (Binary-Download, kein unzip nötig) |
 | **zsh-autosuggestions** | Befehlsvorschläge aus der History |
 | **zsh-syntax-highlighting** | Syntax-Highlighting in der Shell |
 | **tmux** | Terminal Multiplexer |
@@ -40,7 +40,7 @@ Aktualisiert: `.zshrc`, `.p10k.zsh`, `aliases.zsh`, `.tmux.conf` — jeweils mit
 | Datei | Beschreibung |
 |---|---|
 | `config/zshrc` | ZSH-Konfiguration mit Oh-My-Zsh und Plugins |
-| `config/p10k.zsh` | Powerlevel10k Prompt (server-optimiert, kein Nerd Font) |
+| `config/omp.toml` | Oh My Posh Theme (server-optimiert, kein Nerd Font) |
 | `config/aliases.zsh` | Shell-Aliases (git, npm, yarn, docker, ...) + `mdp`/`mdl` für glow |
 | `config/tmux.conf` | tmux mit Dracula Theme und TPM |
 
@@ -63,8 +63,6 @@ Kein Nerd Font erforderlich. Der Prompt zeigt:
 - Links: `user@hostname`, Verzeichnis, Git-Status
 - Rechts: Exit-Code (bei Fehler), Ausführungszeit, Uhrzeit
 - Root-User erscheint in **Rot**
-
-Nach der Installation kann der Prompt mit `p10k configure` weiter angepasst werden.
 
 ## tmux
 
@@ -96,7 +94,7 @@ Prefix: `Ctrl+a`
 Vorhandene Dateien werden automatisch gesichert (`.bak`), bevor sie überschrieben werden:
 
 - `~/.zshrc` → `~/.zshrc.bak`
-- `~/.p10k.zsh` → `~/.p10k.zsh.bak`
+- `~/.config/ohmyposh/server.toml` → `~/.config/ohmyposh/server.toml.bak`
 - `~/.tmux.conf` → `~/.tmux.conf.bak`
 
 ## Aufbau
@@ -107,7 +105,7 @@ zsh-server/
 ├── update.sh         # Configs aktualisieren
 └── config/
     ├── zshrc         # ZSH Konfiguration
-    ├── p10k.zsh      # Powerlevel10k Config
+    ├── omp.toml      # Oh My Posh Theme
     ├── aliases.zsh   # Shell Aliases
     └── tmux.conf     # tmux Konfiguration
 ```

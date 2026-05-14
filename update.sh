@@ -50,7 +50,10 @@ step "Checking oh-my-posh"
 
 if ! command -v oh-my-posh &>/dev/null; then
     step "Installing oh-my-posh (not found)"
-    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$HOME/.local/bin"
+    mkdir -p "$HOME/.local/bin"
+    curl -fsSL https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 \
+        -o "$HOME/.local/bin/oh-my-posh"
+    chmod +x "$HOME/.local/bin/oh-my-posh"
     ok "oh-my-posh installed"
 else
     ok "oh-my-posh already installed"

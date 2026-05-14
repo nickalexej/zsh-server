@@ -11,7 +11,7 @@ Einheitliche ZSH-Shell-Konfiguration für Linux-Server. Basiert auf den macOS-Do
 ### Configs aktualisieren
 Wenn Configs geändert werden (z.B. neue tmux Bindings aus `~/.dotfile/`):
 1. Datei in `config/` anpassen
-2. README.md aktualisieren falls Keybindings/Verhalten sich ändert
+2. **README.md IMMER aktualisieren** — bei jeder Änderung: Tools, Configs, Keybindings, Verhalten
 3. Commit + Push
 4. Auf Servern via `update.sh` ausrollen
 
