@@ -46,6 +46,16 @@ echo "║         Server Shell Update            ║"
 echo "╚════════════════════════════════════════╝"
 echo -e "${NC}"
 
+step "Checking oh-my-posh"
+
+if ! command -v oh-my-posh &>/dev/null; then
+    step "Installing oh-my-posh (not found)"
+    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$HOME/.local/bin"
+    ok "oh-my-posh installed"
+else
+    ok "oh-my-posh already installed"
+fi
+
 step "Fetching latest configs from GitHub"
 
 # .zshrc
