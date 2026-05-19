@@ -41,7 +41,7 @@ Aktualisiert: `.zshrc`, `omp.toml`, `aliases.zsh`, `.tmux.conf` — jeweils mit 
 |---|---|
 | `config/zshrc` | ZSH-Konfiguration mit Oh-My-Zsh und Plugins |
 | `config/omp.toml` | Oh My Posh Theme (server-optimiert, kein Nerd Font) |
-| `config/aliases.zsh` | Shell-Aliases (git, npm, yarn, docker, ...) + `mdp`/`mdl` für glow |
+| `config/aliases.zsh` | Shell-Aliases (git, npm, yarn, docker, system, ...) + Suffix-Alias für Markdown |
 | `config/tmux.conf` | tmux mit Dracula Theme und TPM |
 
 ## Unterstützte Systeme
@@ -88,6 +88,16 @@ Prefix: `Ctrl+a`
 | `prefix + Tab` | Nächstes Pane |
 | `Shift + ←/→` | Window wechseln |
 | `prefix + r` | Config neu laden |
+
+## Nützliche Aliases
+
+| Alias | Befehl |
+|---|---|
+| `sysupdate` | `apt update && upgrade -y && autoclean && autoremove -y` |
+| `ll` | `ls -lah` |
+| `myip` | Externe IP anzeigen |
+| `usage` | Verzeichnisgröße anzeigen |
+| `*.md` / `*.MD` | Suffix-Alias: Dateiname direkt eingeben öffnet glow |
 
 ## Bestehende Configs
 

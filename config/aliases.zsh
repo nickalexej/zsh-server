@@ -23,6 +23,7 @@ alias myip="curl http://ipecho.net/plain; echo"
 # System
 alias usage="du -h -d1"
 alias runp="lsof -i "
+alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoclean && sudo apt autoremove -y"
 
 # Shell config
 alias zshrc="nano ~/.zshrc"
@@ -82,9 +83,9 @@ alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%
 # gitmoji aliases
 alias gmc="gitmoji -c"
 
-# markdown
-alias mdp="glow"           # preview markdown file: mdp README.md
-alias mdl="glow -p"        # paged view (less-style): mdl README.md
+# markdown — Suffix-Alias: README.md direkt eingeben öffnet glow
+alias -s md=glow
+alias -s MD=glow
 
 # docker aliases
 alias dockerstop="docker compose stop"
