@@ -56,13 +56,14 @@ Aktualisiert: `.zshrc`, `omp.toml`, `aliases.zsh`, `.tmux.conf` — jeweils mit 
 Kein Nerd Font erforderlich. Der Prompt zeigt:
 
 ```
-[user@hostname] [~/current/dir] git:main *           ✘ 1  3.2s  14:30
-❯ _
+user@hostname > aktueller-ordner (main)                    14:30
+> _
 ```
 
-- Links: `user@hostname`, Verzeichnis, Git-Status
-- Rechts: Exit-Code (bei Fehler), Ausführungszeit, Uhrzeit
+- Links: `user@hostname`, aktuelles Verzeichnis (nur Ordnername), Git-Branch in Klammern
+- Rechts: Uhrzeit
 - Root-User erscheint in **Rot**
+- Nach Eingabe: transient prompt (`> _`)
 
 ## tmux
 
