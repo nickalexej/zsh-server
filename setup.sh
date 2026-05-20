@@ -151,7 +151,14 @@ install_omp() {
 
     step "Installing oh-my-posh"
     mkdir -p "$HOME/.local/bin"
-    curl -fsSL https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 \
+    local omp_arch
+    case "$(uname -m)" in
+        x86_64)  omp_arch="amd64"  ;;
+        aarch64) omp_arch="arm64"  ;;
+        armv7l)  omp_arch="arm"    ;;
+        *) warn "Unsupported arch for oh-my-posh: $(uname -m)"; return ;;
+    esac
+    curl -fsSL "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-${omp_arch}" \
         -o "$HOME/.local/bin/oh-my-posh"
     chmod +x "$HOME/.local/bin/oh-my-posh"
     ok "oh-my-posh installed"

@@ -51,7 +51,14 @@ step "Checking oh-my-posh"
 if ! command -v oh-my-posh &>/dev/null; then
     step "Installing oh-my-posh (not found)"
     mkdir -p "$HOME/.local/bin"
-    curl -fsSL https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 \
+    local omp_arch
+    case "$(uname -m)" in
+        x86_64)  omp_arch="amd64"  ;;
+        aarch64) omp_arch="arm64"  ;;
+        armv7l)  omp_arch="arm"    ;;
+        *) echo "Unsupported arch for oh-my-posh: $(uname -m)"; exit 1 ;;
+    esac
+    curl -fsSL "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-${omp_arch}" \
         -o "$HOME/.local/bin/oh-my-posh"
     chmod +x "$HOME/.local/bin/oh-my-posh"
     ok "oh-my-posh installed"
