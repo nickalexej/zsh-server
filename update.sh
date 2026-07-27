@@ -51,14 +51,30 @@ step "Checking oh-my-posh"
 if ! command -v oh-my-posh &>/dev/null; then
     step "Installing oh-my-posh (not found)"
     mkdir -p "$HOME/.local/bin"
-    local omp_arch
-    case "$(uname -m)" in
-        x86_64)  omp_arch="amd64"  ;;
-        aarch64) omp_arch="arm64"  ;;
-        armv7l)  omp_arch="arm"    ;;
-        *) echo "Unsupported arch for oh-my-posh: $(uname -m)"; exit 1 ;;
+
+    omp_asset=""
+    case "$(uname -s)" in
+        Darwin)
+            if [ "$(uname -m)" != "arm64" ]; then
+                echo "Unsupported arch for oh-my-posh on macOS: $(uname -m) (only Apple Silicon supported)"
+                exit 1
+            fi
+            omp_asset="posh-darwin-arm64"
+            ;;
+        Linux)
+            case "$(uname -m)" in
+                x86_64)  omp_arch="amd64"  ;;
+                aarch64) omp_arch="arm64"  ;;
+                armv7l)  omp_arch="arm"    ;;
+                *) echo "Unsupported arch for oh-my-posh: $(uname -m)"; exit 1 ;;
+            esac
+            omp_asset="posh-linux-${omp_arch}"
+            ;;
+        *)
+            echo "Unsupported OS for oh-my-posh: $(uname -s)"; exit 1 ;;
     esac
-    curl -fsSL "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-${omp_arch}" \
+
+    curl -fsSL "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/${omp_asset}" \
         -o "$HOME/.local/bin/oh-my-posh"
     chmod +x "$HOME/.local/bin/oh-my-posh"
     ok "oh-my-posh installed"

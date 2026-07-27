@@ -50,6 +50,9 @@ Aktualisiert: `.zshrc`, `omp.toml`, `aliases.zsh`, `.tmux.conf` — jeweils mit 
 - CentOS / RHEL / AlmaLinux (`yum` / `dnf`)
 - Fedora (`dnf`)
 - Arch Linux (`pacman`)
+- macOS (`brew`, nur Apple Silicon)
+
+Installation läuft auf macOS identisch: `./setup.sh`. oh-my-posh wird dabei automatisch als Apple-Silicon-Binary geladen.
 
 ## Prompt
 
@@ -94,7 +97,7 @@ Prefix: `Ctrl+a`
 
 | Alias | Befehl |
 |---|---|
-| `sysupdate` | `apt update && upgrade -y && autoclean && autoremove -y` |
+| `sysupdate` | System-Update, Paketmanager-agnostisch (brew/apt/dnf/yum/pacman) |
 | `ll` | `ls -lah` |
 | `myip` | Externe IP anzeigen |
 | `usage` | Verzeichnisgröße anzeigen |

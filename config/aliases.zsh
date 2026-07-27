@@ -23,7 +23,22 @@ alias myip="curl http://ipecho.net/plain; echo"
 # System
 alias usage="du -h -d1"
 alias runp="lsof -i "
-alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoclean && sudo apt autoremove -y"
+sysupdate() {
+    if command -v brew &>/dev/null; then
+        brew update && brew upgrade && brew cleanup
+    elif command -v apt-get &>/dev/null; then
+        sudo apt update && sudo apt upgrade -y && sudo apt autoclean && sudo apt autoremove -y
+    elif command -v dnf &>/dev/null; then
+        sudo dnf upgrade -y && sudo dnf autoremove -y
+    elif command -v yum &>/dev/null; then
+        sudo yum update -y && sudo yum autoremove -y
+    elif command -v pacman &>/dev/null; then
+        sudo pacman -Syu --noconfirm
+    else
+        echo "No supported package manager found (brew, apt, dnf, yum, pacman)"
+        return 1
+    fi
+}
 
 # Shell config
 alias zshrc="nano ~/.zshrc"

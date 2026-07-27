@@ -38,7 +38,10 @@ run_sudo() {
 # ─── Package Manager Detection ───────────────────────────────────────────────
 
 detect_pkg_manager() {
-    if command -v apt-get &>/dev/null; then
+    if command -v brew &>/dev/null; then
+        PKG_INSTALL="brew install"
+        PKG_UPDATE="brew update"
+    elif command -v apt-get &>/dev/null; then
         PKG_INSTALL="apt-get install -y"
         PKG_UPDATE="apt-get update -qq"
     elif command -v dnf &>/dev/null; then
@@ -51,7 +54,7 @@ detect_pkg_manager() {
         PKG_INSTALL="pacman -S --noconfirm"
         PKG_UPDATE="pacman -Sy"
     else
-        err "No supported package manager found (apt, dnf, yum, pacman)"
+        err "No supported package manager found (brew, apt, dnf, yum, pacman)"
     fi
 }
 
@@ -59,7 +62,13 @@ detect_pkg_manager() {
 
 install_packages() {
     step "Checking required packages"
-    run_sudo bash -c "$PKG_UPDATE" 2>/dev/null || true
+
+    # brew never runs as root/sudo
+    if [ "$PKG_INSTALL" = "brew install" ]; then
+        bash -c "$PKG_UPDATE" 2>/dev/null || true
+    else
+        run_sudo bash -c "$PKG_UPDATE" 2>/dev/null || true
+    fi
 
     local packages=(zsh tmux git curl)
     for pkg in "${packages[@]}"; do
@@ -67,7 +76,11 @@ install_packages() {
             ok "$pkg already installed"
         else
             step "Installing $pkg..."
-            run_sudo bash -c "$PKG_INSTALL $pkg"
+            if [ "$PKG_INSTALL" = "brew install" ]; then
+                bash -c "$PKG_INSTALL $pkg"
+            else
+                run_sudo bash -c "$PKG_INSTALL $pkg"
+            fi
             ok "$pkg installed"
         fi
     done
@@ -151,14 +164,31 @@ install_omp() {
 
     step "Installing oh-my-posh"
     mkdir -p "$HOME/.local/bin"
-    local omp_arch
-    case "$(uname -m)" in
-        x86_64)  omp_arch="amd64"  ;;
-        aarch64) omp_arch="arm64"  ;;
-        armv7l)  omp_arch="arm"    ;;
-        *) warn "Unsupported arch for oh-my-posh: $(uname -m)"; return ;;
+
+    local omp_asset
+    case "$(uname -s)" in
+        Darwin)
+            if [ "$(uname -m)" != "arm64" ]; then
+                warn "Unsupported arch for oh-my-posh on macOS: $(uname -m) (only Apple Silicon supported)"
+                return
+            fi
+            omp_asset="posh-darwin-arm64"
+            ;;
+        Linux)
+            local omp_arch
+            case "$(uname -m)" in
+                x86_64)  omp_arch="amd64"  ;;
+                aarch64) omp_arch="arm64"  ;;
+                armv7l)  omp_arch="arm"    ;;
+                *) warn "Unsupported arch for oh-my-posh: $(uname -m)"; return ;;
+            esac
+            omp_asset="posh-linux-${omp_arch}"
+            ;;
+        *)
+            warn "Unsupported OS for oh-my-posh: $(uname -s)"; return ;;
     esac
-    curl -fsSL "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-${omp_arch}" \
+
+    curl -fsSL "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/${omp_asset}" \
         -o "$HOME/.local/bin/oh-my-posh"
     chmod +x "$HOME/.local/bin/oh-my-posh"
     ok "oh-my-posh installed"
